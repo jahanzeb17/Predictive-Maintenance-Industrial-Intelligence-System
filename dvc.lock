@@ -1,0 +1,70 @@
+schema: '2.0'
+stages:
+  feature_engineering:
+    cmd: python src/features.py
+    deps:
+    - path: data/raw/turbofan/RUL_FD001.txt
+      hash: md5
+      md5: 8f4a8b3d2692b2f7d8e72b344927bf4b
+      size: 429
+    - path: data/raw/turbofan/test_FD001.txt
+      hash: md5
+      md5: 62316d1dd70f88a9a43a1e2690765437
+      size: 2228855
+    - path: data/raw/turbofan/train_FD001.txt
+      hash: md5
+      md5: 259f340bac32ce6fa8894815600fa757
+      size: 3515356
+    - path: src/features.py
+      hash: md5
+      md5: e383bf6c6896169ca0e3675c4c7f1d76
+      size: 4577
+    outs:
+    - path: data/processed/features_test.parquet
+      hash: md5
+      md5: b869f6c63334d123a290ad78d8b6031d
+      size: 8736347
+    - path: data/processed/features_train.parquet
+      hash: md5
+      md5: 2498926779c5eabc95097a467c56d67b
+      size: 13755317
+  train_df_model:
+    cmd: python src/models/rul_regressor.py
+    deps:
+    - path: data/processed/features_test.parquet
+      hash: md5
+      md5: b869f6c63334d123a290ad78d8b6031d
+      size: 8736347
+    - path: data/processed/features_train.parquet
+      hash: md5
+      md5: 2498926779c5eabc95097a467c56d67b
+      size: 13755317
+    - path: src/models/rul_regressor.py
+      hash: md5
+      md5: 0fa190a9d3141873531d28abb9ee30d1
+      size: 3734
+    outs:
+    - path: artifacts/feature_importance.png
+      hash: md5
+      md5: 8352e5b320a11fe15f137c6fb7a684c5
+      size: 39379
+  train_lstm_model:
+    cmd: python src/models/lstm_autoencoder.py
+    deps:
+    - path: data/processed/features_train.parquet
+      hash: md5
+      md5: 2498926779c5eabc95097a467c56d67b
+      size: 13755317
+    - path: src/models/lstm_autoencoder.py
+      hash: md5
+      md5: 6d9de27b6165f37c9196da58c178419a
+      size: 5409
+    outs:
+    - path: artifacts/reconstruction_error_dist.png
+      hash: md5
+      md5: 566db1065f45f31c3e2a8eebb619c33f
+      size: 28116
+    - path: artifacts/sensor_scaler.pkl
+      hash: md5
+      md5: 07cfba36bf7b5c6340fe647dcf7c2b89
+      size: 1239

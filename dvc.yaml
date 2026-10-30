@@ -1,0 +1,29 @@
+stages:
+  feature_engineering:
+    cmd: python src/features.py
+    deps:
+      - src/features.py
+      - data/raw/turbofan/train_FD001.txt
+      - data/raw/turbofan/test_FD001.txt
+      - data/raw/turbofan/RUL_FD001.txt
+    outs:
+      - data/processed/features_train.parquet
+      - data/processed/features_test.parquet
+
+  train_df_model:
+    cmd: python src/models/rul_regressor.py
+    deps:
+      - src/models/rul_regressor.py
+      - data/processed/features_train.parquet
+      - data/processed/features_test.parquet
+    outs:
+      - artifacts/feature_importance.png
+
+  train_lstm_model:
+    cmd: python src/models/lstm_autoencoder.py
+    deps:
+      - src/models/lstm_autoencoder.py
+      - data/processed/features_train.parquet
+    outs:
+      - artifacts/reconstruction_error_dist.png
+      - artifacts/sensor_scaler.pkl
