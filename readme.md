@@ -8,8 +8,6 @@
 An end-to-end MLOps pipeline for jet engine health monitoring, combining a Random Forest RUL (Remaining Useful Life) regressor, an LSTM Autoencoder for anomaly detection, and a RAG (Retrieval-Augmented Generation) system powered by historical maintenance logs — all served via a FastAPI backend, tracked with MLflow, and visualized through a Streamlit dashboard.
 
 ---
-### 🌐 **Live Link:** [Predictive Maintenance System](http://<YOUR_AWS_PUBLIC_IP>:8000/docs)
-*(Note: Hosted on a dedicated AWS EC2 instance)
 
 ## Table of Contents
 
